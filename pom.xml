@@ -7,6 +7,5 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>enhanced-domotic</name>
-	<url>https://github.com/niqdev/enhanced-domotic.git</url>
 	
 </project>
