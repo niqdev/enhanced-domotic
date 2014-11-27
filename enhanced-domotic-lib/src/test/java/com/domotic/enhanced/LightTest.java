@@ -23,37 +23,29 @@ public class LightTest {
     ConfigManager.initConfig(ConfigValidTest.class);
   }
 
-  @Test
-  @Ignore
+  @Test @Ignore
   public void turnOnAll() {
     assertEquals("invalid commmand", "*1*1*0##", cmd(turnOn().the(light())));
   }
 
-  @Test
-  @Ignore
+  @Test @Ignore
   public void turnOffAll() {
     assertEquals("invalid commmand", "*1*0*0##", cmd(turnOff().the(light())));
   }
 
-  @Test
-  @Ignore
+  @Test @Ignore
   public void turnOnWithId() {
-    assertEquals("invalid commmand", "*1*1*11##",
-        cmd(turnOn().the(light(withId(11)))));
+    assertEquals("invalid commmand", "*1*1*11##", cmd(turnOn().the(light(withId(11)))));
   }
 
-  @Test
-  @Ignore
+  @Test @Ignore
   public void turnOnInGroup() {
-    assertEquals("invalid commmand", "*1*1*#3##",
-        cmd(turnOn().the(light(inGroup(3)))));
+    assertEquals("invalid commmand", "*1*1*#3##", cmd(turnOn().the(light(inGroup(3)))));
   }
 
-  @Test
-  @Ignore
+  @Test @Ignore
   public void turnOnInEnvironment() {
-    assertEquals("invalid commmand", "*1*1*8##",
-        cmd(turnOn().the(light(inEnvironment(8)))));
+    assertEquals("invalid commmand", "*1*1*8##", cmd(turnOn().the(light(inEnvironment(8)))));
   }
 
   private static <T> String cmd(Command<T> cmd) {

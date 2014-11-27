@@ -41,12 +41,12 @@ public interface Action extends SubCommand {
 
     }
 
-    // TODO assignable only dimer ?
+    // TODO assignable only from dimer ?
     interface Dimer extends ActionProperty {
 
     }
 
-    // TODO assignable only dimer ?
+    // TODO assignable only from dimer ?
     interface Speed extends ActionProperty {
 
     }

@@ -9,10 +9,10 @@ public class ConfigManager {
 
   private static DomoticConfig config;
 
-  public static void initConfig(Class<? extends DomoticConfig> clazz) {
+  public static void initConfig(Class<? extends DomoticConfig> type) {
     synchronized (DomoticConfig.class) {
       try {
-        config = clazz.newInstance();
+        config = type.newInstance();
       } catch (InstantiationException | IllegalAccessException e) {
         throw new EnhancedException("unable to instantiate class");
       }
@@ -28,12 +28,15 @@ public class ConfigManager {
   }
 
   private static void validateConfig() {
-    if (config.getProtocol() == null)
+    if (config.getProtocol() == null) {
       throw new EnhancedException("protocol is null");
-    if (StringUtils.isBlank(config.getHost()))
+    }
+    if (StringUtils.isBlank(config.getHost())) {
       throw new EnhancedException("host is whitespace, empty or null");
-    if (!Range.between(1024, 65535).contains(config.getPort()))
+    }
+    if (!Range.between(1024, 65535).contains(config.getPort())) {
       throw new EnhancedException("port not in range 1024-65535 inclusive only");
+    }
   }
 
 }
