@@ -6,9 +6,9 @@ import com.domotic.enhanced.exception.EnhancedException;
 
 public class ConfigManagerNullTest {
 
-	@Test(expected = EnhancedException.class)
-	public void nullConfig() {
-		ConfigManager.getConfig();
-	}
-	
+  @Test(expected = EnhancedException.class)
+  public void nullConfig() {
+    ConfigManager.getConfig();
+  }
+
 }

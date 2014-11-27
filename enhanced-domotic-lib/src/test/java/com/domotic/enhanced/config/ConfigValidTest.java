@@ -6,19 +6,19 @@ import com.domotic.enhanced.domain.Protocol;
 
 public class ConfigValidTest implements DomoticConfig {
 
-	@Override
-	public Protocol getProtocol() {
-		return OPENWEBNET;
-	}
+  @Override
+  public Protocol getProtocol() {
+    return OPENWEBNET;
+  }
 
-	@Override
-	public String getHost() {
-		return "0.0.0.0";
-	}
+  @Override
+  public String getHost() {
+    return "0.0.0.0";
+  }
 
-	@Override
-	public Integer getPort() {
-		return 20000;
-	}
+  @Override
+  public Integer getPort() {
+    return 20000;
+  }
 
 }

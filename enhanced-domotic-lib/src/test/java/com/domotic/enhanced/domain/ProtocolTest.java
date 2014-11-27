@@ -7,10 +7,10 @@ import org.junit.Test;
 
 public class ProtocolTest {
 
-	@Test
-	public void openwebnetPackage() {
-		String pkg = "com.domotic.enhanced.protocol.openwebnet";
-		assertTrue("invalid package", pkg.equals(OPENWEBNET.getDefaultPackage()));
-	}
+  @Test
+  public void openwebnetPackage() {
+    String pkg = "com.domotic.enhanced.protocol.openwebnet";
+    assertTrue("invalid package", pkg.equals(OPENWEBNET.getDefaultPackage()));
+  }
 
 }
