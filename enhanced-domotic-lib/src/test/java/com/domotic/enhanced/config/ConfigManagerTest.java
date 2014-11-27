@@ -20,5 +20,4 @@ public class ConfigManagerTest {
 		ConfigManager.getConfig();
 	}
 
-
 }
