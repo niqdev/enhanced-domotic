@@ -22,6 +22,9 @@ public class Openwebnet {
   //*CHI*COSA*DOVE##
   public static final String FORMAT_COMMAND = "*{0}*{1}*{2}##";
 
+  /*
+   * TODO
+   */
   @EDomotic(COMMAND)
   public static List<String> build(Domotics<String> domotics, Syntax<String> syntax) {
     List<String> commands = Lists.newArrayList();

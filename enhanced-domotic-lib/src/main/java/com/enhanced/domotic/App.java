@@ -11,7 +11,7 @@ public class App {
   
   public static void main(String[] args) {
     
-    // singleton
+    // TODO singleton
     Config config = new AppConfig();
     
     // TODO junit test!!
