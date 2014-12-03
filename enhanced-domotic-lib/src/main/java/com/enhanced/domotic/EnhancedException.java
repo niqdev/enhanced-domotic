@@ -1,8 +1,8 @@
-package com.domotic.enhanced.exception;
+package com.enhanced.domotic;
 
 public class EnhancedException extends RuntimeException {
 
-  private static final long serialVersionUID = 5010798741487346286L;
+  private static final long serialVersionUID = -5085430167658294483L;
 
   public EnhancedException(String message, Throwable cause) {
     super(message, cause);
