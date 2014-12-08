@@ -1,4 +1,4 @@
-package com.enhanced.domotic.command;
+package com.enhanced.domotic.syntax;
 
 import com.enhanced.domotic.domain.EDevice.DeviceType;
 

@@ -1,4 +1,4 @@
-package com.enhanced.domotic.command;
+package com.enhanced.domotic.syntax;
 
 import java.util.List;
 import java.util.Map;

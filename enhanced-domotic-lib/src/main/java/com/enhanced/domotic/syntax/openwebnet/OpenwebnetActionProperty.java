@@ -1,4 +1,4 @@
-package com.enhanced.domotic.command.openwebnet;
+package com.enhanced.domotic.syntax.openwebnet;
 
 public class OpenwebnetActionProperty {
   

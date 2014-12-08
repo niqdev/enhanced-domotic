@@ -1,4 +1,4 @@
-package com.enhanced.domotic.command.openwebnet;
+package com.enhanced.domotic.syntax.openwebnet;
 
 import static com.enhanced.domotic.domain.EAction.ActionType.TURN_OFF;
 import static com.enhanced.domotic.domain.EAction.ActionType.TURN_ON;
@@ -7,9 +7,9 @@ import static com.enhanced.domotic.domain.EDevice.DeviceType.RADIO;
 
 import java.util.Map;
 
-import com.enhanced.domotic.command.Action;
 import com.enhanced.domotic.domain.EAction;
 import com.enhanced.domotic.domain.EDevice.DeviceType;
+import com.enhanced.domotic.syntax.Action;
 import com.google.common.collect.ImmutableMap;
 
 public class OpenwebnetAction {

@@ -4,7 +4,7 @@ import static com.enhanced.domotic.domain.Protocol.OPENWEBNET;
 
 import com.enhanced.domotic.domain.Protocol;
 
-public class AppConfig implements Config {
+public class TestConfig implements Config {
 
   @Override
   public Protocol protocol() {
@@ -20,5 +20,7 @@ public class AppConfig implements Config {
   public Integer port() {
     return 20000;
   }
+
   
+
 }
