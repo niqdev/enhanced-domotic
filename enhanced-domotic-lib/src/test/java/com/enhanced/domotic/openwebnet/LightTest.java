@@ -2,12 +2,16 @@ package com.enhanced.domotic.openwebnet;
 
 import static com.enhanced.domotic.domain.EAction.ActionType.TURN_OFF;
 import static com.enhanced.domotic.domain.EAction.ActionType.TURN_ON;
+import static com.enhanced.domotic.domain.EActionProperty.ActionPropertyType.BLINK;
+import static com.enhanced.domotic.domain.EActionProperty.ActionPropertyType.DIMER;
+import static com.enhanced.domotic.domain.EActionProperty.ActionPropertyType.SPEED;
+import static com.enhanced.domotic.domain.EActionProperty.ActionPropertyType.TIMED;
 import static com.enhanced.domotic.domain.EDevice.DeviceType.LIGHT;
 import static com.enhanced.domotic.domain.EDeviceProperty.DevicePropertyType.ALL;
+import static com.enhanced.domotic.domain.EDeviceProperty.DevicePropertyType.ENVIRONMENT;
 import static com.enhanced.domotic.domain.EDeviceProperty.DevicePropertyType.GROUP;
 import static com.enhanced.domotic.domain.EDeviceProperty.DevicePropertyType.ID;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
@@ -17,7 +21,7 @@ import org.junit.Test;
 
 import com.enhanced.domotic.Config;
 import com.enhanced.domotic.EnhancedDomotic;
-import com.enhanced.domotic.TestConfig;
+import com.enhanced.domotic.EnhancedException;
 
 public class LightTest {
 
@@ -25,7 +29,7 @@ public class LightTest {
 
   @Before
   public void setUp() throws Exception {
-    config = new TestConfig();
+    config = new OpenwebnetConfig();
   }
 
   @Test
@@ -65,44 +69,157 @@ public class LightTest {
   }
   
   @Test
-  public void turnOnByInvalidId() {
+  public void turnOnByIds() {
     List<String> commands = EnhancedDomotic
+      .<String>config(config)
+      .action(TURN_ON)
+      .device(LIGHT)
+      .deviceProperty(ID, 41, 11, 31)
+      .command();
+    
+    assertEquals("invalid commmand", "*1*1*41##", commands.get(0));
+    assertEquals("invalid commmand", "*1*1*11##", commands.get(1));
+    assertEquals("invalid commmand", "*1*1*31##", commands.get(2));
+  }
+  
+  @Test(expected = EnhancedException.class)
+  public void invalidIds() {
+    // IllegalArgumentException
+    EnhancedDomotic
       .<String>config(config)
       .action(TURN_ON)
       .device(LIGHT)
       .deviceProperty(ID, 8, 1000)
       .command();
-    
-    assertTrue("invalid id value", commands.isEmpty());
   }
   
   @Test
-  public void turnOnGroup() {
+  public void turnOffGroup() {
     String command = EnhancedDomotic
       .<String>config(config)
-      .action(TURN_ON)
+      .action(TURN_OFF)
       .device(LIGHT)
-      .deviceProperty(GROUP, 3)
+      .deviceProperty(GROUP, 2)
       .command().get(0);
     
-    assertEquals("invalid commmand", "*1*1*#3##", command);
+    assertEquals("invalid commmand", "*1*0*#2##", command);
   }
   
   @Test
-  public void turnOnInvalidGroup() {
+  public void turnOffGroups() {
     List<String> commands = EnhancedDomotic
+      .<String>config(config)
+      .action(TURN_OFF)
+      .device(LIGHT)
+      .deviceProperty(GROUP, 3, 1, 2)
+      .command();
+    
+    assertEquals("invalid commmand", "*1*0*#3##", commands.get(0));
+    assertEquals("invalid commmand", "*1*0*#1##", commands.get(1));
+    assertEquals("invalid commmand", "*1*0*#2##", commands.get(2));
+  }
+  
+  @Test(expected = EnhancedException.class)
+  public void invalidGroups() {
+    // IllegalArgumentException
+    EnhancedDomotic
       .<String>config(config)
       .action(TURN_ON)
       .device(LIGHT)
       .deviceProperty(GROUP, 10, -2)
       .command();
+  }
+  
+  @Test
+  public void turnOnEnvironment() {
+    String command = EnhancedDomotic
+      .<String>config(config)
+      .action(TURN_ON)
+      .device(LIGHT)
+      .deviceProperty(ENVIRONMENT, 2)
+      .command().get(0);
     
-    assertTrue("invalid group value", commands.isEmpty());
+    assertEquals("invalid commmand", "*1*1*2##", command);
+  }
+  
+  @Test
+  public void turnOffEnvironments() {
+    List<String> commands = EnhancedDomotic
+      .<String>config(config)
+      .action(TURN_OFF)
+      .device(LIGHT)
+      .deviceProperty(ENVIRONMENT, 2, 6, 9)
+      .command();
+    
+    assertEquals("invalid commmand", "*1*0*2##", commands.get(0));
+    assertEquals("invalid commmand", "*1*0*6##", commands.get(1));
+    assertEquals("invalid commmand", "*1*0*9##", commands.get(2));
+  }
+  
+  @Test(expected = EnhancedException.class)
+  public void invalidEnvironments() {
+    // IllegalArgumentException
+    EnhancedDomotic
+      .<String>config(config)
+      .action(TURN_OFF)
+      .device(LIGHT)
+      .deviceProperty(ENVIRONMENT, 0, -4, 11)
+      .command();
   }
   
   @Test @Ignore
-  public void turnOnInEnvironment() {
-    assertEquals("invalid commmand", "*1*1*8##", null);
+  public void blinking() {
+    String command = EnhancedDomotic
+      .<String>config(config)
+      .action(TURN_ON)
+      .actionProperty(BLINK, 11)
+      .device(LIGHT)
+      .deviceProperty(ID, 21)
+      .command().get(0);
+    
+    assertEquals("invalid commmand", "", command);
+  }
+  
+  // TODO all dimer test
+  @Test
+  public void dimer() {
+    List<String> command = EnhancedDomotic
+      .<String>config(config)
+      .action(TURN_ON)
+      .actionProperty(DIMER, 80)
+      .device(LIGHT)
+      .deviceProperty(ID, 21)
+      .command();
+    
+    System.out.println(command);
+    
+    assertEquals("invalid commmand", "*1*8*21##", command.get(0));
+  }
+  
+  @Test @Ignore
+  public void speed() {
+    String command = EnhancedDomotic
+      .<String>config(config)
+      .action(TURN_ON)
+      .actionProperty(SPEED, 11)
+      .device(LIGHT)
+      .deviceProperty(ID, 21)
+      .command().get(0);
+    
+    assertEquals("invalid commmand", "", command);
+  }
+  
+  @Test @Ignore
+  public void timed() {
+    String command = EnhancedDomotic
+      .<String>config(config)
+      .action(TURN_ON)
+      .actionProperty(TIMED, 11)
+      .device(LIGHT)
+      .deviceProperty(ID, 21)
+      .command().get(0);
+    
+    assertEquals("invalid commmand", "", command);
   }
   
 }

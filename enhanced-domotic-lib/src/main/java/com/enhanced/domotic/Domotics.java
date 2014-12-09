@@ -19,6 +19,8 @@ import org.reflections.scanners.TypeAnnotationsScanner;
 
 import com.enhanced.domotic.domain.EAction;
 import com.enhanced.domotic.domain.EAction.ActionType;
+import com.enhanced.domotic.domain.EActionProperty;
+import com.enhanced.domotic.domain.EActionProperty.ActionPropertyType;
 import com.enhanced.domotic.domain.EDevice;
 import com.enhanced.domotic.domain.EDevice.DeviceType;
 import com.enhanced.domotic.domain.EDeviceProperty;
@@ -60,6 +62,18 @@ public class Domotics<T> {
   public Action<T> action(final ActionType actionType) {
     Method method = findAnnotatedMethod(EAction.class, actionType);
     return Domotics.<Action<T>>invokeStaticMethod(method);
+  }
+  
+  /**
+   * Find method annotated with {@link EActionProperty} and invoke
+   * its implementation depending on protocol.
+   * 
+   * @throws NoSuchElementException if no implementation found 
+   * @throws IllegalArgumentException if multiple implementation found
+   */
+  public <V> Property<T, V> actionProperty(ActionPropertyType propertyType) {
+    Method method = findAnnotatedMethod(EActionProperty.class, propertyType);
+    return Domotics.<Property<T, V>>invokeStaticMethod(method);
   }
   
   /**

@@ -1,6 +1,7 @@
 package com.enhanced.domotic.syntax.openwebnet;
 
 import static com.enhanced.domotic.domain.EDeviceProperty.DevicePropertyType.ALL;
+import static com.enhanced.domotic.domain.EDeviceProperty.DevicePropertyType.ENVIRONMENT;
 import static com.enhanced.domotic.domain.EDeviceProperty.DevicePropertyType.GROUP;
 import static com.enhanced.domotic.domain.EDeviceProperty.DevicePropertyType.ID;
 import static com.google.common.base.Preconditions.checkArgument;
@@ -40,9 +41,7 @@ public class OpenwebnetDeviceProperty {
 
       @Override
       public List<String> transform(List<Integer> values) {
-        checkArgument(isNotEmpty(values), "invalid parameters: at least one value");
-        
-        return FluentIterable
+        List<String> properties = FluentIterable
           .from(values)
           .filter(new Predicate<Integer>() {
 
@@ -54,6 +53,9 @@ public class OpenwebnetDeviceProperty {
           })
           .transform(Functions.toStringFunction())
           .toList();
+        
+        checkArgument(isNotEmpty(properties), "invalid parameters: at least one value expected");
+        return properties;
       }
     };
   }
@@ -64,9 +66,7 @@ public class OpenwebnetDeviceProperty {
 
       @Override
       public List<String> transform(List<Integer> values) {
-        checkArgument(isNotEmpty(values), "invalid parameters: at least one value");
-        
-        return FluentIterable
+        List<String> properties = FluentIterable
           .from(values)
           .filter(new Predicate<Integer>() {
 
@@ -85,6 +85,34 @@ public class OpenwebnetDeviceProperty {
             }
           })
           .toList();
+        
+        checkArgument(isNotEmpty(properties), "invalid parameters: at least one value expected");
+        return properties;
+      }
+    };
+  }
+  
+  @EDeviceProperty(ENVIRONMENT)
+  public static Property<String, Integer> environment() {
+    return new Property<String, Integer>() {
+
+      @Override
+      public List<String> transform(List<Integer> values) {
+        List<String> properties = FluentIterable
+          .from(values)
+          .filter(new Predicate<Integer>() {
+
+            @Override
+            public boolean apply(Integer input) {
+              // discard invalid value
+              return input >= 1 && input <= 9;
+            }
+          })
+          .transform(Functions.toStringFunction())
+          .toList();
+        
+        checkArgument(isNotEmpty(properties), "invalid parameters: at least one value expected");
+        return properties;
       }
     };
   }

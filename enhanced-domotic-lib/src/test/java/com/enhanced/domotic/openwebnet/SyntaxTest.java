@@ -12,7 +12,6 @@ import org.junit.Test;
 import com.enhanced.domotic.Config;
 import com.enhanced.domotic.EnhancedDomotic;
 import com.enhanced.domotic.EnhancedException;
-import com.enhanced.domotic.TestConfig;
 
 public class SyntaxTest {
 
@@ -20,7 +19,7 @@ public class SyntaxTest {
 
   @Before
   public void setUp() throws Exception {
-    config = new TestConfig();
+    config = new OpenwebnetConfig();
   }
 
   @Test(expected = NullPointerException.class)
@@ -50,6 +49,7 @@ public class SyntaxTest {
   
   @Test(expected = EnhancedException.class)
   public void invalidAllValue() {
+    // IllegalArgumentException
     EnhancedDomotic
       .<String>config(config)
       .action(TURN_ON)
@@ -60,6 +60,7 @@ public class SyntaxTest {
   
   @Test(expected = EnhancedException.class)
   public void missingIdValue() {
+    // IllegalArgumentException
     EnhancedDomotic
       .<String>config(config)
       .action(TURN_ON)
@@ -69,7 +70,19 @@ public class SyntaxTest {
   }
   
   @Test(expected = EnhancedException.class)
+  public void invalidIdValue() {
+    // ClassCastException
+    EnhancedDomotic
+      .<String>config(config)
+      .action(TURN_ON)
+      .device(LIGHT)
+      .deviceProperty(ID, "1")
+      .command();
+  }
+  
+  @Test(expected = EnhancedException.class)
   public void missingGroupValue() {
+    // IllegalArgumentException
     EnhancedDomotic
       .<String>config(config)
       .action(TURN_ON)

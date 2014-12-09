@@ -16,7 +16,6 @@ public @interface EDeviceProperty {
   public enum DevicePropertyType {
     ALL,
     ID,
-    NAME,
     GROUP,
     ENVIRONMENT
   }

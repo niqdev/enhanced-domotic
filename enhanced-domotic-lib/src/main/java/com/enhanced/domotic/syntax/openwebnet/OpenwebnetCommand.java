@@ -6,6 +6,7 @@ import java.text.MessageFormat;
 import java.util.List;
 
 import com.enhanced.domotic.Domotics;
+import com.enhanced.domotic.domain.EActionProperty.ActionPropertyType;
 import com.enhanced.domotic.domain.EDeviceProperty.DevicePropertyType;
 import com.enhanced.domotic.domain.EDomotic;
 import com.enhanced.domotic.syntax.Command;
@@ -25,13 +26,17 @@ public class OpenwebnetCommand extends Command<String> {
   @Override
   public List<String> build() {
     List<String> commands = Lists.newArrayList();
-    
-    // TODO how
-    
-    for (String where : whereList()) {
-      commands.add(MessageFormat.format(FORMAT, who(), what(), where));
+    for (String how : howList()) {
+      commands.addAll(formatCommand(how));
     }
-    
+    return commands;
+  }
+  
+  private List<String> formatCommand(String what) {
+    List<String> commands = Lists.newArrayList();
+    for (String where : whereList()) {
+      commands.add(MessageFormat.format(FORMAT, who(), what, where));
+    }
     return commands;
   }
   
@@ -45,10 +50,18 @@ public class OpenwebnetCommand extends Command<String> {
   /**
    * Action Properties = HOW
    */
-  private List<String> howList() {
-    List<String> how = Lists.newArrayList();
-    // TODO
-    return how;
+  @SuppressWarnings("unchecked")
+  private <V> List<String> howList() {
+    if (syntax().actionProperties.isEmpty()) {
+      return Lists.newArrayList(what());
+    }
+    // how overrides what
+    List<String> howList = Lists.newArrayList();
+    for (ActionPropertyType property : syntax().actionProperties.keySet()) {
+      Property<String, V> actionProperty = domotics().actionProperty(property);
+      howList.addAll(actionProperty.transform((List<V>) syntax().actionProperties.get(property)));
+    }
+    return howList;
   }
   
   /**

@@ -14,10 +14,10 @@ public @interface EActionProperty {
   ActionPropertyType value();
   
   public enum ActionPropertyType {
-    TIMED,
     BLINK,
     DIMER,
-    SPEED
+    SPEED,
+    TIMED
   }
 
 }
