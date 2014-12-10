@@ -2,10 +2,6 @@ package com.enhanced.domotic.openwebnet;
 
 import static com.enhanced.domotic.domain.EAction.ActionType.TURN_OFF;
 import static com.enhanced.domotic.domain.EAction.ActionType.TURN_ON;
-import static com.enhanced.domotic.domain.EActionProperty.ActionPropertyType.BLINK;
-import static com.enhanced.domotic.domain.EActionProperty.ActionPropertyType.DIMER;
-import static com.enhanced.domotic.domain.EActionProperty.ActionPropertyType.SPEED;
-import static com.enhanced.domotic.domain.EActionProperty.ActionPropertyType.TIMED;
 import static com.enhanced.domotic.domain.EDevice.DeviceType.LIGHT;
 import static com.enhanced.domotic.domain.EDeviceProperty.DevicePropertyType.ALL;
 import static com.enhanced.domotic.domain.EDeviceProperty.DevicePropertyType.ENVIRONMENT;
@@ -16,7 +12,6 @@ import static org.junit.Assert.assertEquals;
 import java.util.List;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import com.enhanced.domotic.Config;
@@ -165,61 +160,6 @@ public class LightTest {
       .device(LIGHT)
       .deviceProperty(ENVIRONMENT, 0, -4, 11)
       .command();
-  }
-  
-  @Test @Ignore
-  public void blinking() {
-    String command = EnhancedDomotic
-      .<String>config(config)
-      .action(TURN_ON)
-      .actionProperty(BLINK, 11)
-      .device(LIGHT)
-      .deviceProperty(ID, 21)
-      .command().get(0);
-    
-    assertEquals("invalid commmand", "", command);
-  }
-  
-  // TODO all dimer test
-  @Test
-  public void dimer() {
-    List<String> command = EnhancedDomotic
-      .<String>config(config)
-      .action(TURN_ON)
-      .actionProperty(DIMER, 80)
-      .device(LIGHT)
-      .deviceProperty(ID, 21)
-      .command();
-    
-    System.out.println(command);
-    
-    assertEquals("invalid commmand", "*1*8*21##", command.get(0));
-  }
-  
-  @Test @Ignore
-  public void speed() {
-    String command = EnhancedDomotic
-      .<String>config(config)
-      .action(TURN_ON)
-      .actionProperty(SPEED, 11)
-      .device(LIGHT)
-      .deviceProperty(ID, 21)
-      .command().get(0);
-    
-    assertEquals("invalid commmand", "", command);
-  }
-  
-  @Test @Ignore
-  public void timed() {
-    String command = EnhancedDomotic
-      .<String>config(config)
-      .action(TURN_ON)
-      .actionProperty(TIMED, 11)
-      .device(LIGHT)
-      .deviceProperty(ID, 21)
-      .command().get(0);
-    
-    assertEquals("invalid commmand", "", command);
   }
   
 }

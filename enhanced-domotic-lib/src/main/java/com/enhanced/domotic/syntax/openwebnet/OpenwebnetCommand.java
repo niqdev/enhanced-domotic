@@ -14,6 +14,9 @@ import com.enhanced.domotic.syntax.Property;
 import com.enhanced.domotic.syntax.Syntax;
 import com.google.common.collect.Lists;
 
+/*
+ * TODO refactor
+ */
 @EDomotic(COMMAND)
 public class OpenwebnetCommand extends Command<String> {
   
