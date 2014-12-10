@@ -12,6 +12,7 @@
 
   <modules>
     <module>enhanced-domotic-lib</module>
+    <module>enhanced-domotic-android</module>
   </modules>
 
   <properties>

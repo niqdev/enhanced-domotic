@@ -10,6 +10,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.enhanced.domotic.client.openwebnet.OpenwebnetClient;
 import com.enhanced.domotic.domain.EAction.ActionType;
 import com.enhanced.domotic.domain.EActionProperty.ActionPropertyType;
 import com.enhanced.domotic.domain.EDevice.DeviceType;
@@ -112,7 +113,10 @@ public class EnhancedDomotic<T> {
   public void execute() {
     // TODO
     List<T> command = command();
-    log.debug(command.toString());
+    //log.debug(command.toString());
+    
+    new Thread(new OpenwebnetClient((EnhancedDomotic<String>) this)).start();
+    //Executors.newSingleThreadExecutor().execute(new OpenwebnetClient((EnhancedDomotic<String>) this));
   }
 
 }
