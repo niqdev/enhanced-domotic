@@ -17,3 +17,4 @@ EnhancedDomotic
   .deviceProperty(GROUP, 33)
   .execute();
 ```
+[Here](https://github.com/niqdev/enhanced-domotic/tree/master/enhanced-domotic-lib/src/test/java/com/enhanced/domotic/openwebnet) for more examples.
