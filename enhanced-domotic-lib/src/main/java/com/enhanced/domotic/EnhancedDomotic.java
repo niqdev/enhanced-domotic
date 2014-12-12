@@ -10,7 +10,6 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.enhanced.domotic.client.openwebnet.OpenwebnetClient;
 import com.enhanced.domotic.domain.EAction.ActionType;
 import com.enhanced.domotic.domain.EActionProperty.ActionPropertyType;
 import com.enhanced.domotic.domain.EDevice.DeviceType;
@@ -37,8 +36,18 @@ public class EnhancedDomotic<T> {
   }
   
   /**
+   * Executes raw requests.
+   * 
+   * @param config
+   * @param values
+   */
+  @SuppressWarnings("unchecked")
+  public static <V> void execRaw(Config config, V... values) {
+    config(config).execute((List<Object>) Domotics.newSafeList(values));
+  }
+  
+  /**
    * The action to be computed.
-   * <p>This field is mandatory.
    * 
    * @see com.enhanced.domotic.domain.EAction.ActionType
    */
@@ -51,7 +60,6 @@ public class EnhancedDomotic<T> {
   /**
    * Additional property of the action.
    * {@link ActionPropertyType} of the same are overridden.
-   * <p>This field is optional.
    * 
    * @see com.enhanced.domotic.domain.EActionProperty.ActionPropertyType
    */
@@ -64,7 +72,6 @@ public class EnhancedDomotic<T> {
   
   /**
    * The device on which the action takes effect.
-   * <p>This field is mandatory.
    * 
    * @see com.enhanced.domotic.domain.EDevice.DeviceType
    */
@@ -76,7 +83,6 @@ public class EnhancedDomotic<T> {
   
   /**
    * Specify additional information on the device.
-   * <p>This field is optional.
    * 
    * @see com.enhanced.domotic.domain.EDeviceProperty.DevicePropertyType
    */
@@ -91,14 +97,18 @@ public class EnhancedDomotic<T> {
    * @return Request command implementation.
    */
   public List<T> command() {
-    log.debug("request for COMMAND");
     checkNotNull(this.syntax.actionType, "action can not be null");
     checkNotNull(this.syntax.deviceType, "device can not be null");
     checkArgument(!this.syntax.deviceProperties.isEmpty(), "at least one device propery must be specified");
-    return domotics.build(COMMAND, syntax);
+    
+    List<T> commands = domotics.build(COMMAND, syntax);
+    log.debug("COMMANDS: {}", commands);
+    return commands;
   }
   
   /**
+   * TODO not implemented yet
+   * 
    * @return Request status implementation.
    */
   public List<T> status() {
@@ -108,15 +118,17 @@ public class EnhancedDomotic<T> {
   }
   
   /**
-   * Executes all the command right now (WHEN).
+   * Executes all the commands now (WHEN).
    */
-  public void execute() {
-    // TODO
-    List<T> command = command();
-    //log.debug(command.toString());
-    
-    new Thread(new OpenwebnetClient((EnhancedDomotic<String>) this)).start();
-    //Executors.newSingleThreadExecutor().execute(new OpenwebnetClient((EnhancedDomotic<String>) this));
+  public void execCommand() {
+    execute(command());
   }
-
+  
+  /**
+   * Spawn a new thread to execute the request.
+   */
+  private void execute(List<T> values) {
+    domotics.startClient(values);
+  }
+  
 }

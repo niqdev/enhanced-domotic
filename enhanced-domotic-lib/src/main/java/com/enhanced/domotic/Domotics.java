@@ -17,6 +17,7 @@ import org.reflections.scanners.MethodAnnotationsScanner;
 import org.reflections.scanners.SubTypesScanner;
 import org.reflections.scanners.TypeAnnotationsScanner;
 
+import com.enhanced.domotic.client.openwebnet.OpenwebnetClient;
 import com.enhanced.domotic.domain.EAction;
 import com.enhanced.domotic.domain.EAction.ActionType;
 import com.enhanced.domotic.domain.EActionProperty;
@@ -278,7 +279,12 @@ public class Domotics<T> {
         throw new EnhancedException("error while invoking [build] method", e);
       }
     }
-    throw new EnhancedException("unable to find [Command] class annotated with [@EDomotic]");
+    throw new EnhancedException("unable to find class annotated with @EDomotic");
+  }
+  
+  public void startClient(List<T> values) {
+    // TODO
+    OpenwebnetClient.startThread(values, config);
   }
   
 }
