@@ -14,7 +14,7 @@ EnhancedDomotic
   .actionProperty(DIMER, 80)
   .device(LIGHT)
   .deviceProperty(ID, 11, 22)
-  .deviceProperty(GROUP, 33)
+  .deviceProperty(GROUP, 3)
   .execute();
 ```
 [Here](https://github.com/niqdev/enhanced-domotic/tree/master/enhanced-domotic-lib/src/test/java/com/enhanced/domotic/openwebnet) for more examples.
