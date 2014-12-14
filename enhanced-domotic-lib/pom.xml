@@ -23,7 +23,7 @@
   </properties>
 
   <dependencies>
-    
+
     <!-- log -->
     <dependency>
       <groupId>org.slf4j</groupId>
