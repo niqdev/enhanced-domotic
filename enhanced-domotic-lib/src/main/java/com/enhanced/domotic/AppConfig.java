@@ -1,11 +1,10 @@
-package com.enhanced.domotic.openwebnet;
+package com.enhanced.domotic;
 
 import static com.enhanced.domotic.domain.Protocol.OPENWEBNET;
 
-import com.enhanced.domotic.Config;
 import com.enhanced.domotic.domain.Protocol;
 
-public class OpenwebnetConfig implements Config {
+public class AppConfig implements Config {
 
   @Override
   public Protocol protocol() {
@@ -14,7 +13,7 @@ public class OpenwebnetConfig implements Config {
 
   @Override
   public String host() {
-    return "0.0.0.0";
+    return "192.168.1.41";
   }
 
   @Override

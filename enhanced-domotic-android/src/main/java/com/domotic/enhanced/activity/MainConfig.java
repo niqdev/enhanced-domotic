@@ -1,11 +1,14 @@
-package com.enhanced.domotic.openwebnet;
+package com.domotic.enhanced.activity;
 
 import static com.enhanced.domotic.domain.Protocol.OPENWEBNET;
+
+import org.androidannotations.annotations.EBean;
 
 import com.enhanced.domotic.Config;
 import com.enhanced.domotic.domain.Protocol;
 
-public class OpenwebnetConfig implements Config {
+@EBean
+public class MainConfig implements Config {
 
   @Override
   public Protocol protocol() {
@@ -14,12 +17,12 @@ public class OpenwebnetConfig implements Config {
 
   @Override
   public String host() {
-    return "0.0.0.0";
+    return "192.168.1.41";
   }
 
   @Override
   public Integer port() {
     return 20000;
   }
-
+  
 }
