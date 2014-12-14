@@ -6,16 +6,16 @@
   <parent>
     <groupId>com.domotic.enhanced</groupId>
     <artifactId>enhanced-domotic</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.1</version>
   </parent>
 
-  <groupId>com.domotic.enhanced.lib</groupId>
   <artifactId>enhanced-domotic-lib</artifactId>
-  <version>0.0.1</version>
+  <version>0.1</version>
   <packaging>jar</packaging>
   <name>enhanced-domotic-lib</name>
 
   <properties>
+    <slf4j.version>1.7.7</slf4j.version>
     <reflections.version>0.9.9</reflections.version>
     <guava.version>18.0</guava.version>
 
@@ -23,6 +23,18 @@
   </properties>
 
   <dependencies>
+    
+    <!-- log -->
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <version>${slf4j.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-log4j12</artifactId>
+      <version>${slf4j.version}</version>
+    </dependency>
 
     <dependency>
       <groupId>org.reflections</groupId>
@@ -36,12 +48,14 @@
       <version>${guava.version}</version>
     </dependency>
 
+    <!-- TODO -->
     <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-collections4</artifactId>
       <version>4.0</version>
     </dependency>
 
+    <!-- TODO -->
     <dependency>
       <groupId>commons-beanutils</groupId>
       <artifactId>commons-beanutils</artifactId>
@@ -49,28 +63,5 @@
     </dependency>
 
   </dependencies>
-
-  <build>
-    <finalName>${project.artifactId}</finalName>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-shade-plugin</artifactId>
-        <version>${maven-shade-plugin.version}</version>
-        <executions>
-          <execution>
-            <phase>package</phase>
-            <goals>
-              <goal>shade</goal>
-            </goals>
-            <configuration>
-              <createDependencyReducedPom>false</createDependencyReducedPom>
-              <minimizeJar>true</minimizeJar>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-    </plugins>
-  </build>
 
 </project>

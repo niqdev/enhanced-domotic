@@ -90,8 +90,6 @@ public class LightOptionalTest {
       .deviceProperty(ENVIRONMENT, 2, 50, 1000)
       .command();
     
-    System.out.println(commands);
-    
     assertTrue("invalid total commands", size(commands) == 6);
     assertTrue("missing commmand", commands.contains("*1*5*21##"));
     assertTrue("missing commmand", commands.contains("*1*5*22##"));
