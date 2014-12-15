@@ -17,8 +17,17 @@
 
   <properties>
     <build-name>enhanced-domotic</build-name>
+    <lib.version>0.1</lib.version>
     <maven-shade-plugin.version>2.3</maven-shade-plugin.version>
   </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>com.domotic.enhanced</groupId>
+      <artifactId>enhanced-domotic-lib</artifactId>
+      <version>${lib.version}</version>
+    </dependency>
+  </dependencies>
 
   <build>
     <finalName>${build-name}</finalName>
