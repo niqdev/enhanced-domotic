@@ -10,16 +10,16 @@ public class App {
 
     Config config = new AppConfig();
     
-    //EnhancedDomotic.<String>execRaw(config, "*1*1*21##");
+    //EnhancedDomotic.<String>raw(config, "*1*1*21##");
     
     EnhancedDomotic
       .<String>config(config)
       .action(TURN_ON)
       .device(LIGHT)
       .deviceProperty(ID, 21)
-      .execCommand();
-    
-     // TODO app do not exit ?
+      .command();
+
+    // TODO app do not exit ?
   }
 
 }

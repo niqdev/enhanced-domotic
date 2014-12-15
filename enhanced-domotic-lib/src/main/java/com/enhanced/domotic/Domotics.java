@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Set;
 
+import org.apache.commons.lang3.reflect.MethodUtils;
 import org.reflections.Reflections;
 import org.reflections.scanners.MethodAnnotationsScanner;
 import org.reflections.scanners.SubTypesScanner;
@@ -29,9 +30,9 @@ import com.enhanced.domotic.domain.EDeviceProperty.DevicePropertyType;
 import com.enhanced.domotic.domain.EDomotic;
 import com.enhanced.domotic.domain.EDomotic.SyntaxType;
 import com.enhanced.domotic.syntax.Action;
-import com.enhanced.domotic.syntax.Command;
 import com.enhanced.domotic.syntax.Device;
 import com.enhanced.domotic.syntax.Property;
+import com.enhanced.domotic.syntax.Request;
 import com.enhanced.domotic.syntax.Syntax;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
@@ -106,8 +107,7 @@ public class Domotics<T> {
     
     checkNotNull(annotationClass);
     checkNotNull(enumType);
-    // TODO
-    Set<Method> candidate = Sets.filter(findMethods(annotationClass), isValidTypeMethod(annotationClass, enumType));
+    Set<Method> candidate = Sets.filter(findMethods(annotationClass), isValidType(annotationClass, enumType));
     return Iterables.getOnlyElement(candidate);
   }
   
@@ -116,8 +116,7 @@ public class Domotics<T> {
     
     checkNotNull(annotationClass);
     checkNotNull(enumType);
-    // TODO
-    Set<Class<?>> candidate = Sets.filter(findClasses(annotationClass), isValidTypeClass(annotationClass, enumType));
+    Set<Class<?>> candidate = Sets.filter(findClasses(annotationClass), isValidType(annotationClass, enumType));
     return Iterables.getOnlyElement(candidate);
   }
   
@@ -130,57 +129,8 @@ public class Domotics<T> {
   }
 
   /**
-   * TODO delete
-   * @see com.enhanced.domotic.Domotics.isValidType(Class<A>, E)
-   */
-  private static <A extends Annotation, E extends Enum<E>> Predicate<Method>
-    isValidTypeMethod(final Class<A> annotationClass, final E enumType) {
-    
-    return new Predicate<Method>() {
-  
-      @Override
-      public boolean apply(Method input) {
-        // find annotation on method
-        final Annotation annotation = input.getAnnotation(annotationClass);
-        // find attributes on annotation
-        for (Method method : annotation.annotationType().getDeclaredMethods()) {
-          // test attribute VALUE on annotation
-          if (annotationValue(annotation, method) == enumType) {
-            return true;
-          }
-        }
-        return false;
-      }
-    };
-  }
-
-  /**
-   * TODO delete
-   * @see com.enhanced.domotic.Domotics.isValidType(Class<A>, E)
-   */
-  private static <A extends Annotation, E extends Enum<E>> Predicate<Class<?>>
-    isValidTypeClass(final Class<A> annotationClass, final E enumType) {
-    
-    return new Predicate<Class<?>>() {
-  
-      @Override
-      public boolean apply(Class<?> input) {
-        // find annotation on method
-        final Annotation annotation = input.getAnnotation(annotationClass);
-        // find attributes on annotation
-        for (Method method : annotation.annotationType().getDeclaredMethods()) {
-          // test attribute VALUE on annotation
-          if (annotationValue(annotation, method) == enumType) {
-            return true;
-          }
-        }
-        return false;
-      }
-    };
-  }
-  
-  /**
-   * TODO use for Method and Class
+   * Validate {@code Method} or {@code Class}.
+   * 
    * @see com.enhanced.domotic.Domotics.invokeGetAnnotation(Class<A>, T)
    */
   private static <C, A extends Annotation, E extends Enum<E>> Predicate<C>
@@ -204,8 +154,6 @@ public class Domotics<T> {
   }
   
   /**
-   * TODO
-   * 
    * Find annotation on {@code Method} or {@code Class}.
    * 
    * @see java.lang.reflect.Method.getAnnotation(Class<T>)
@@ -213,14 +161,9 @@ public class Domotics<T> {
    */
   private static <A extends Annotation, T> Annotation invokeGetAnnotation(final Class<A> annotationClass, T input) {
     try {
-      // TODO error lookup Annotation attribute
-      //return (Annotation) MethodUtils.invokeExactMethod(input, "getAnnotation", null);
-      Method method = input.getClass().getDeclaredMethod("getAnnotation", annotationClass);
-      method.setAccessible(true);
-      return (Annotation) method.invoke(input, annotationClass);
-    } catch (NoSuchMethodException | SecurityException| IllegalAccessException
-        | IllegalArgumentException | InvocationTargetException e) {
-      throw new EnhancedException("invoke method [getAnnotation] cause error", e);
+      return (Annotation) MethodUtils.invokeExactMethod(input, "getAnnotation", annotationClass);
+    } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+      throw new EnhancedException("invoke [getAnnotation] method cause error", e);
     }
   }
   
@@ -230,9 +173,8 @@ public class Domotics<T> {
     checkArgument("value".equals(attribute.getName()));
     try {
       return (E) attribute.invoke(annotation);
-    } catch (IllegalAccessException | IllegalArgumentException
-        | InvocationTargetException e) {
-      throw new EnhancedException("annotation attribute [value] expected", e);
+    } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+      throw new EnhancedException("expected annotation attribute [value]", e);
     }
   }
   
@@ -243,9 +185,8 @@ public class Domotics<T> {
   private static <C> C invokeStaticMethod(Method method, Object... args) {
     try {
       return (C) method.invoke(null, args);
-    } catch (IllegalAccessException | IllegalArgumentException
-        | InvocationTargetException e) {
-      throw new EnhancedException("error invoking single static method", e);
+    } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+      throw new EnhancedException("invoke static method cause error", e);
     }
   }
   
@@ -258,21 +199,19 @@ public class Domotics<T> {
   }
   
   /**
-   * Invoke {@link com.enhanced.domotic.syntax.Command.build()}.
+   * Instantiate a {@code new Request(Domotics<T>, Syntax<T>)} and
+   * invoke {@code com.enhanced.domotic.syntax.Request.build()}.
    */
   @SuppressWarnings("unchecked")
   public List<T> build(SyntaxType syntaxType, Syntax<T> syntax) {
-    //return (List<T>) new OpenwebnetCommand((Domotics<String>) this, (Syntax<String>) syntax).build();
-    
     Class<?> klass = findAnnotatedClass(EDomotic.class, syntaxType);
-    if (Command.class.isAssignableFrom(klass)) {
+    if (Request.class.isAssignableFrom(klass)) {
       try {
-        // new Command(Domotics<T>, Syntax<T>)
         Constructor<?> constructor = klass.getDeclaredConstructor(Domotics.class, Syntax.class);
         constructor.setAccessible(true);
-        Command<T> command = (Command<T>) constructor.newInstance(this, syntax);
+        Request<T> command = (Request<T>) constructor.newInstance(this, syntax);
         
-        Method method = Command.class.getDeclaredMethod("build");
+        Method method = Request.class.getDeclaredMethod("build");
         return (List<T>) method.invoke(command);
       } catch (NoSuchMethodException | SecurityException | InstantiationException
           | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {

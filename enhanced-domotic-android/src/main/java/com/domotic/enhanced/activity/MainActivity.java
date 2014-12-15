@@ -30,13 +30,13 @@ public class MainActivity extends Activity {
   @Click(R.id.buttonRaw)
   void raw() {
     String raw = testEditText.getText().toString();
-    EnhancedDomotic.execRaw(null, raw);
+    EnhancedDomotic.raw(null, raw);
   }
 
   @Click(R.id.buttonOn)
   void turnOn() {
     // TODO
-    EnhancedDomotic.<String>execRaw(config, "*1*1*21##");
+    EnhancedDomotic.<String>raw(config, "*1*1*21##");
   }
 
   @Click(R.id.buttonOff)
@@ -52,7 +52,7 @@ public class MainActivity extends Activity {
       .action(TURN_ON)
       .device(LIGHT)
       .deviceProperty(ID, 41)
-      .execCommand();
+      .requestCommand();
   }
 
 }

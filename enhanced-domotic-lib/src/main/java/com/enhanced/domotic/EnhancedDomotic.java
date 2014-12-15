@@ -42,7 +42,7 @@ public class EnhancedDomotic<T> {
    * @param values
    */
   @SuppressWarnings("unchecked")
-  public static <V> void execRaw(Config config, V... values) {
+  public static <V> void raw(Config config, V... values) {
     config(config).execute((List<Object>) Domotics.newSafeList(values));
   }
   
@@ -118,10 +118,17 @@ public class EnhancedDomotic<T> {
   }
   
   /**
-   * Executes all the commands now (WHEN).
+   * Requests the command now (WHEN).
    */
-  public void execCommand() {
+  public void requestCommand() {
     execute(command());
+  }
+  
+  /**
+   * Requests the status now (WHEN).
+   */
+  public void requestStatus() {
+    execute(status());
   }
   
   /**

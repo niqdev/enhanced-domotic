@@ -9,7 +9,7 @@ import com.enhanced.domotic.Domotics;
 import com.enhanced.domotic.domain.EActionProperty.ActionPropertyType;
 import com.enhanced.domotic.domain.EDeviceProperty.DevicePropertyType;
 import com.enhanced.domotic.domain.EDomotic;
-import com.enhanced.domotic.syntax.Command;
+import com.enhanced.domotic.syntax.Request;
 import com.enhanced.domotic.syntax.Property;
 import com.enhanced.domotic.syntax.Syntax;
 import com.google.common.collect.Lists;
@@ -18,7 +18,7 @@ import com.google.common.collect.Lists;
  * TODO refactor
  */
 @EDomotic(COMMAND)
-public class OpenwebnetCommand extends Command<String> {
+public class OpenwebnetCommand extends Request<String> {
   
   public static final String FORMAT = "*{0}*{1}*{2}##";
   
