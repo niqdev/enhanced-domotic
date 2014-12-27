@@ -204,6 +204,8 @@ public class Domotics<T> {
    */
   @SuppressWarnings("unchecked")
   public List<T> build(SyntaxType syntaxType, Syntax<T> syntax) {
+    //return (List<T>) new OpenwebnetCommand((Domotics<String>) this, (Syntax<String>) syntax).build();
+
     Class<?> klass = findAnnotatedClass(EDomotic.class, syntaxType);
     if (Request.class.isAssignableFrom(klass)) {
       try {

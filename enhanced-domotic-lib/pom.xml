@@ -16,10 +16,11 @@
 
   <properties>
     <slf4j.version>1.7.7</slf4j.version>
-    <reflections.version>0.9.9</reflections.version>
     <guava.version>18.0</guava.version>
+    <reflections.version>0.9.9</reflections.version>
     <commons-collections.version>4.0</commons-collections.version>
     <commons-lang.version>3.3.2</commons-lang.version>
+    <commons-beanutils.version>1.9.2</commons-beanutils.version>
 
     <maven-shade-plugin.version>2.3</maven-shade-plugin.version>
   </properties>
@@ -39,34 +40,32 @@
     </dependency>
 
     <dependency>
-      <groupId>org.reflections</groupId>
-      <artifactId>reflections</artifactId>
-      <version>${reflections.version}</version>
-    </dependency>
-
-    <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
       <version>${guava.version}</version>
     </dependency>
 
     <dependency>
+      <groupId>org.reflections</groupId>
+      <artifactId>reflections</artifactId>
+      <version>${reflections.version}</version>
+    </dependency>
+
+    <!-- commons -->
+    <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-collections4</artifactId>
       <version>${commons-collections.version}</version>
     </dependency>
-
     <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-lang3</artifactId>
       <version>${commons-lang.version}</version>
     </dependency>
-
-    <!-- TODO method utils unused -->
     <dependency>
       <groupId>commons-beanutils</groupId>
       <artifactId>commons-beanutils</artifactId>
-      <version>1.9.2</version>
+      <version>${commons-beanutils.version}</version>
     </dependency>
 
     <dependency>

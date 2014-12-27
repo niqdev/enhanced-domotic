@@ -41,6 +41,7 @@ public class OpenwebnetClient implements Runnable {
     this.config = config;
   }
   
+  // TODO handler
   @SuppressWarnings("unchecked")
   public static <T> void startThread(List<T> values, Config config) {
     new Thread(new OpenwebnetClient((List<String>) values, config)).start();
