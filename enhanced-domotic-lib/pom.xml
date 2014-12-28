@@ -21,8 +21,7 @@
     <commons-collections.version>4.0</commons-collections.version>
     <commons-lang.version>3.3.2</commons-lang.version>
     <commons-beanutils.version>1.9.2</commons-beanutils.version>
-
-    <maven-shade-plugin.version>2.3</maven-shade-plugin.version>
+    <lambdaj.version>2.3.3</lambdaj.version>
   </properties>
 
   <dependencies>
@@ -71,7 +70,7 @@
     <dependency>
       <groupId>com.googlecode.lambdaj</groupId>
       <artifactId>lambdaj</artifactId>
-      <version>2.3.3</version>
+      <version>${lambdaj.version}</version>
       <exclusions>
         <exclusion>
           <groupId>org.hamcrest</groupId>
