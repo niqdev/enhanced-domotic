@@ -6,13 +6,11 @@ For now, only [OpenWebNet](http://www.myopen-legrandgroup.com/resources/own_prot
 
 Example with fluent syntax
 ```java
-EnhancedDomotic
-  .config(config)
+EnhancedDomotic.<String>config(config)
+  .type(COMMAND)
   .action(TURN_ON)
-  .actionProperty(DIMER, 80)
   .device(LIGHT)
-  .deviceProperty(ID, 11, 22)
-  .deviceProperty(GROUP, 3)
+  .deviceProperty(ID, 21)
   .execute();
 ```
 or simply
