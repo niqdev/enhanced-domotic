@@ -6,18 +6,14 @@ For now, only [OpenWebNet](http://www.myopen-legrandgroup.com/resources/own_prot
 
 Example with fluent syntax
 ```java
-EnhancedDomotic.<String>config(config)
+EnhancedDomotic.config(config)
   .type(COMMAND)
   .action(TURN_ON)
   .device(LIGHT)
   .deviceProperty(ID, 21)
   .execute();
 ```
-or simply
-```java  
-EnhancedDomotic.<String>raw(config, "*1*1*21##");
-```
 
 [Here](https://github.com/niqdev/enhanced-domotic/tree/master/src/test/java/com/domotic/enhanced/openwebnet) for more examples.
 
-Android development: open [issue](https://github.com/niqdev/enhanced-domotic/issues/1).
+Android development: closed [issue](https://github.com/niqdev/enhanced-domotic/issues/1).
