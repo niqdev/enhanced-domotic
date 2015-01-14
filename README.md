@@ -18,6 +18,6 @@ or simply
 EnhancedDomotic.<String>raw(config, "*1*1*21##");
 ```
 
-[Here](https://github.com/niqdev/enhanced-domotic/tree/master/enhanced-domotic-lib/src/test/java/com/enhanced/domotic/openwebnet) for more examples.
+[Here](https://github.com/niqdev/enhanced-domotic/tree/master/src/test/java/com/domotic/enhanced/openwebnet) for more examples.
 
 Android development: open [issue](https://github.com/niqdev/enhanced-domotic/issues/1).
