@@ -17,3 +17,9 @@ EnhancedDomotic.config(config)
 [Here](https://github.com/niqdev/enhanced-domotic/tree/master/src/test/java/com/domotic/enhanced/openwebnet) for more examples.
 
 Android development: closed [issue](https://github.com/niqdev/enhanced-domotic/issues/1).
+
+####How to build the project:
+```
+mvn eclipse:clean eclipse:eclipse
+mvn clean install
+```
