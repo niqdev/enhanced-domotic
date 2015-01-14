@@ -7,15 +7,13 @@ import static org.apache.commons.collections4.CollectionUtils.isNotEmpty;
 import java.util.List;
 
 import com.domotic.enhanced.Config;
-import com.domotic.enhanced.openwebnet.client.Handler;
-import com.domotic.enhanced.openwebnet.client.LogHandler;
 import com.domotic.enhanced.syntax.Syntax;
 
 public class Request<T> {
   
   private final Config config;
   
-  private final Handler<T> handler;
+  private final Handler handler;
   
   private final List<T> values;
   
@@ -35,7 +33,7 @@ public class Request<T> {
     
     private Config config;
     
-    private Handler<T> handler = new LogHandler<T>();
+    private Handler handler;
     
     private List<T> values;
     
@@ -46,8 +44,8 @@ public class Request<T> {
       return this;
     }
     
-    public Build<T> handler(Handler<T> handler) {
-      this.handler = checkNotNull(handler);
+    public Build<T> handler(Handler handler) {
+      this.handler = defaultHandler(handler);
       return this;
     }
     
@@ -71,13 +69,20 @@ public class Request<T> {
       checkArgument(isNotEmpty(values));
       checkNotNull(syntax);
     }
+    
+    private static Handler defaultHandler(Handler handler) {
+      if (handler != null) {
+        return handler;
+      }
+      return new LogHandler();
+    }
   }
 
   public Config getConfig() {
     return config;
   }
 
-  public Handler<T> getHandler() {
+  public Handler getHandler() {
     return handler;
   }
 

@@ -38,6 +38,11 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
+/**
+ * Helper class to build syntax using reflections.
+ * 
+ * @author niqdev
+ */
 public class Domotics<T> {
   
   private final EnhancedReflection reflection;
@@ -46,6 +51,9 @@ public class Domotics<T> {
     this.reflection = new ReflectionFacade(config);
   }
 
+  /**
+   * 
+   */
   public static <T> Domotics<T> newInstance(Config config) {
     return new Domotics<T>(config);
   }
@@ -97,7 +105,13 @@ public class Domotics<T> {
     Method method = findAnnotatedMethod(EDeviceProperty.class, propertyType);
     return Domotics.<Property<T, V>>invokeStaticMethod(method);
   }
-  
+
+  /**
+   * Only one value expected.
+   * 
+   * @throws NoSuchElementException
+   * @throws IllegalArgumentException
+   */
   private <A extends Annotation, E extends Enum<E>> Method
     findAnnotatedMethod(Class<A> annotationClass, E enumType) {
     
@@ -107,6 +121,12 @@ public class Domotics<T> {
     return Iterables.getOnlyElement(candidate);
   }
   
+  /**
+   * Only one value expected.
+   * 
+   * @throws NoSuchElementException
+   * @throws IllegalArgumentException
+   */
   private <A extends Annotation, E extends Enum<E>> Class<?>
     findAnnotatedClass(Class<A> annotationClass, E enumType) {
     
@@ -217,6 +237,10 @@ public class Domotics<T> {
     }
   }
   
+  /**
+   * Start a new thread and execute the request depending on
+   * the underline {@link com.domotic.enhanced.domain.Protocol}.
+   */
   @SuppressWarnings("unchecked")
   public void startClient(Request<T> request) {
     Class<?> clazz = findAnnotatedClass(EClient.class, request.getConfig().protocol());

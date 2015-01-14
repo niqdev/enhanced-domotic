@@ -4,11 +4,17 @@
 
   <groupId>com.domotic.enhanced</groupId>
   <artifactId>enhanced-domotic</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>0.1</version>
   <packaging>jar</packaging>
 
   <name>enhanced-domotic</name>
   <url>https://github.com/niqdev/enhanced-domotic.git</url>
+  
+  <developers>
+    <developer>
+      <name>niqdev</name>
+    </developer>
+  </developers>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

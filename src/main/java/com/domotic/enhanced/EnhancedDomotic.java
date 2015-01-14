@@ -8,15 +8,37 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.domotic.enhanced.client.Handler;
 import com.domotic.enhanced.client.Request;
 import com.domotic.enhanced.domain.EAction.ActionType;
 import com.domotic.enhanced.domain.EActionProperty.ActionPropertyType;
 import com.domotic.enhanced.domain.EDevice.DeviceType;
 import com.domotic.enhanced.domain.EDeviceProperty.DevicePropertyType;
 import com.domotic.enhanced.domain.EDomotic.SyntaxType;
-import com.domotic.enhanced.openwebnet.client.Handler;
 import com.domotic.enhanced.syntax.Syntax;
 
+/**
+ * A simple domotic library in Java.
+ * 
+ * <pre><i>Example with fluent syntax</i></pre>
+ * <pre>
+ * {@code
+ * EnhancedDomotic.<String>config(config)
+ *    .type(COMMAND)
+ *    .action(TURN_ON)
+ *    .device(LIGHT)
+ *    .deviceProperty(ID, 21)
+ *    .execute();
+ * }
+ * </pre>
+ * <pre><i>Example with raw syntax</i></pre>
+ * {@code
+ * EnhancedDomotic.<String>raw(config, "*1*1*21##");
+ * }
+ * </pre>
+ * 
+ * @author niqdev
+ */
 public class EnhancedDomotic<T> {
   
   private static final Logger log = LoggerFactory.getLogger(EnhancedDomotic.class);
@@ -26,7 +48,7 @@ public class EnhancedDomotic<T> {
   private final Config config;
   private final Domotics<T> domotics;
   private Syntax<T> syntax;
-  private Handler<T> handler;
+  private Handler handler;
   
   private EnhancedDomotic(Config config) {
     instance = this;
@@ -35,24 +57,39 @@ public class EnhancedDomotic<T> {
     this.syntax = Syntax.newInstance();
   }
   
+  /**
+   * Initiate the library. After the first time the same instance is returned.
+   * 
+   * @see com.domotic.enhanced.EnhancedDomotic.resetConfig(Config)
+   */
   @SuppressWarnings("unchecked")
   public static <T> EnhancedDomotic<T> config(Config config) {
     return (EnhancedDomotic<T>) (instance == null ? new EnhancedDomotic<T>(checkNotNull(config)) : instance);
   }
   
+  /**
+   * Reset library configuration.
+   */
   public EnhancedDomotic<T> resetConfig(Config config) {
     instance = new EnhancedDomotic<T>(checkNotNull(config));
     return this;
   }
   
   /**
-   * Defines an handler to manage the request.
+   * Manage and intercept the request.
+   * 
+   * @see com.domotic.enhanced.client.Handler
    */
-  public EnhancedDomotic<T> handler(Handler<T> handler) {
-    handler = checkNotNull(handler);
+  public EnhancedDomotic<T> handler(Handler handler) {
+    this.handler = checkNotNull(handler);
     return this;
   }
   
+  /**
+   * The type of request to be computed.
+   * 
+   * @see com.domotic.enhanced.domain.EDomotic.SyntaxType
+   */
   public EnhancedDomotic<T> type(SyntaxType syntaxType) {
     syntax.syntaxType = checkNotNull(syntaxType);
     log.debug("SYNTAX TYPE: {}", syntaxType);
@@ -105,11 +142,12 @@ public class EnhancedDomotic<T> {
     return this;
   }
   
-  /**
+  /*
    * @throws java.lang.NullPointerException
    * @throws java.lang.IllegalArgumentException
    */
   private void validateSyntax() {
+    log.info("SYNTAX: {}", syntax);
     checkNotNull(syntax.syntaxType, "syntax type can not be null");
     switch (syntax.syntaxType) {
     case COMMAND:
@@ -126,12 +164,17 @@ public class EnhancedDomotic<T> {
     }
   }
   
+  /**
+   * Raw value of the request. Mainly for test purpose.
+   * 
+   * @see com.domotic.enhanced.EnhancedDomotic.raw(Request<T>)
+   */
   public List<T> val() {
     try {
-      log.debug("SYNTAX VALUES: {}", syntax);
       validateSyntax();
-      
-      return domotics.build(syntax);
+      List<T> values = domotics.build(syntax);
+      log.info("VALUES: {}", values);
+      return values;
     } catch (Exception e) {
       log.error("error syntax value", e);
       throw new DomoticException(e);
@@ -146,7 +189,6 @@ public class EnhancedDomotic<T> {
   public void execute() {
     try {
       Syntax<T> clonedSyntax = this.syntax;
-      
       domotics.startClient(new Request.Build<T>()
         .config(config).values(val()).syntax(clonedSyntax).handler(handler).build());
     } catch (Exception e) {

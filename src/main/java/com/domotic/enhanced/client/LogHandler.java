@@ -1,21 +1,21 @@
-package com.domotic.enhanced.openwebnet.client;
+package com.domotic.enhanced.client;
 
 import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class LogHandler<T> implements Handler<T> {
+public class LogHandler implements Handler {
 
   private final Logger log = LoggerFactory.getLogger(LogHandler.class);
 
   @Override
-  public void validate(List<T> values) {
+  public void onValidation(List<?> values) {
     log.debug("handler validate: {}", values);
   }
 
   @Override
-  public void onSuccess(List<T> values) {
+  public void onSuccess(List<?> values) {
     log.debug("handler onSuccess: {}", values);
   }
 
