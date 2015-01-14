@@ -1,5 +1,6 @@
 package com.domotic.enhanced.openwebnet.client;
 
+import static com.domotic.enhanced.domain.Protocol.OPENWEBNET;
 import static com.domotic.enhanced.openwebnet.client.Frame.ACK;
 import static com.domotic.enhanced.openwebnet.client.Frame.SESSION_COMMAND;
 import static com.domotic.enhanced.openwebnet.client.Frame.SESSION_EVENT;
@@ -29,8 +30,10 @@ import com.domotic.enhanced.Config;
 import com.domotic.enhanced.DomoticException;
 import com.domotic.enhanced.client.Client;
 import com.domotic.enhanced.client.Request;
+import com.domotic.enhanced.domain.EClient;
 import com.google.common.collect.Lists;
 
+@EClient(OPENWEBNET)
 public class OpenwebnetClient extends Client<String> {
   
   private final int TIMEOUT = 10*1000; // 10 seconds

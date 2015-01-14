@@ -8,7 +8,7 @@ import com.google.common.collect.Lists;
 
 public abstract class Client<T> implements Runnable {
   
-  private boolean DEBUG = true;
+  private boolean DEBUG = false;
   
   protected final Request<T> request;
 

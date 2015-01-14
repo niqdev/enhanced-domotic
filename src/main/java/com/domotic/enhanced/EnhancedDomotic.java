@@ -23,17 +23,12 @@ import com.domotic.enhanced.syntax.Syntax;
  * <pre><i>Example with fluent syntax</i></pre>
  * <pre>
  * {@code
- * EnhancedDomotic.<String>config(config)
+ * EnhancedDomotic.config(config)
  *    .type(COMMAND)
  *    .action(TURN_ON)
  *    .device(LIGHT)
  *    .deviceProperty(ID, 21)
  *    .execute();
- * }
- * </pre>
- * <pre><i>Example with raw syntax</i></pre>
- * {@code
- * EnhancedDomotic.<String>raw(config, "*1*1*21##");
  * }
  * </pre>
  * 
@@ -195,15 +190,6 @@ public class EnhancedDomotic<T> {
       log.error("error client execution", e);
       throw new DomoticException(e);
     }
-  }
-  
-  /**
-   * Executes raw request.
-   * 
-   * @param request
-   */
-  public void raw(Request<T> request) {
-    domotics.startClient(request);
   }
 
 }
