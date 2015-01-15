@@ -223,7 +223,7 @@ public class Domotics<T> {
   public List<T> build(Syntax<T> syntax) {
     Class<?> klass = findAnnotatedClass(EDomotic.class, syntax.syntaxType);
     if (!SyntaxComposer.class.isAssignableFrom(klass)) {
-      throw new DomoticException("unable to find a valid class");
+      throw new DomoticException("unable to find a valid SyntaxComposer");
     }
     
     try {
@@ -246,7 +246,7 @@ public class Domotics<T> {
   public void startClient(Request<T> request, Handler<T> handler) {
     Class<?> clazz = findAnnotatedClass(EClient.class, request.getConfig().protocol());
     if (!Client.class.isAssignableFrom(clazz)) {
-      throw new DomoticException("unable to find a valid class");
+      throw new DomoticException("unable to find a valid Client");
     } 
     
     try {
