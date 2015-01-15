@@ -9,7 +9,7 @@ public class ProtocolTest {
 
   @Test
   public void test() {
-    String expected = "com.domotic.enhanced.openwebnet";
+    String expected = "com.domotic.enhanced.protocol.openwebnet";
     assertEquals("invalid OpenWebNet package", expected, OPENWEBNET.getPath());
   }
 

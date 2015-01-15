@@ -2,7 +2,7 @@ package com.domotic.enhanced.domain;
 
 public enum Protocol {
   
-  OPENWEBNET("com.domotic.enhanced.openwebnet");
+  OPENWEBNET("com.domotic.enhanced.protocol.openwebnet");
   
   private final String path;
   
