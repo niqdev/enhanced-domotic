@@ -1,9 +1,9 @@
-package com.domotic.enhanced.openwebnet.client;
+package com.domotic.enhanced.protocol.openwebnet.client;
 
 import static com.domotic.enhanced.domain.Protocol.OPENWEBNET;
-import static com.domotic.enhanced.openwebnet.client.Frame.ACK;
-import static com.domotic.enhanced.openwebnet.client.Frame.SESSION_COMMAND;
-import static com.domotic.enhanced.openwebnet.client.Frame.SESSION_EVENT;
+import static com.domotic.enhanced.protocol.openwebnet.client.Frame.ACK;
+import static com.domotic.enhanced.protocol.openwebnet.client.Frame.SESSION_COMMAND;
+import static com.domotic.enhanced.protocol.openwebnet.client.Frame.SESSION_EVENT;
 import static com.google.common.base.Preconditions.checkArgument;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 

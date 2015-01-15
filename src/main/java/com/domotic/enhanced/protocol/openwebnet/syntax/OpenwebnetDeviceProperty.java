@@ -1,4 +1,4 @@
-package com.domotic.enhanced.openwebnet.syntax;
+package com.domotic.enhanced.protocol.openwebnet.syntax;
 
 import static com.domotic.enhanced.domain.EDeviceProperty.DevicePropertyType.ALL;
 import static com.domotic.enhanced.domain.EDeviceProperty.DevicePropertyType.ENVIRONMENT;

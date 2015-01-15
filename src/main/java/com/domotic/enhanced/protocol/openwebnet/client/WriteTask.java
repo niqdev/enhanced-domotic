@@ -1,4 +1,4 @@
-package com.domotic.enhanced.openwebnet.client;
+package com.domotic.enhanced.protocol.openwebnet.client;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
