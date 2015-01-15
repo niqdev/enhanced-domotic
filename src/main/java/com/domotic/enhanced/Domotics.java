@@ -15,6 +15,7 @@ import java.util.Set;
 import org.apache.commons.beanutils.MethodUtils;
 
 import com.domotic.enhanced.client.Client;
+import com.domotic.enhanced.client.Handler;
 import com.domotic.enhanced.client.Request;
 import com.domotic.enhanced.domain.EAction;
 import com.domotic.enhanced.domain.EAction.ActionType;
@@ -242,16 +243,16 @@ public class Domotics<T> {
    * the underline {@link com.domotic.enhanced.domain.Protocol}.
    */
   @SuppressWarnings("unchecked")
-  public void startClient(Request<T> request) {
+  public void startClient(Request<T> request, Handler<T> handler) {
     Class<?> clazz = findAnnotatedClass(EClient.class, request.getConfig().protocol());
     if (!Client.class.isAssignableFrom(clazz)) {
       throw new DomoticException("unable to find a valid class");
     } 
     
     try {
-      Constructor<?> constructor = clazz.getDeclaredConstructor(Request.class);
+      Constructor<?> constructor = clazz.getDeclaredConstructor(Request.class, Handler.class);
       constructor.setAccessible(true);
-      Client<T> client = (Client<T>) constructor.newInstance(request);
+      Client<T> client = (Client<T>) constructor.newInstance(request, handler);
       
       new Thread(client).start();
     } catch (NoSuchMethodException | SecurityException | InstantiationException

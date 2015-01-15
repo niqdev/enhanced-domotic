@@ -1,59 +1,63 @@
 package com.domotic.enhanced.client;
 
-import java.util.List;
-
 import com.domotic.enhanced.DomoticException;
 import com.domotic.enhanced.domain.EDomotic.SyntaxType;
-import com.google.common.collect.Lists;
 
 public abstract class Client<T> implements Runnable {
   
   private boolean DEBUG = false;
   
-  protected final Request<T> request;
+  private final Request<T> request;
+  private final Handler<T> handler;
 
-  public Client(Request<T> request) {
+  public Client(Request<T> request, Handler<T> handler) {
     this.request = request;
+    this.handler = defaultHandler(handler);
+  }
+  
+  private Handler<T> defaultHandler(Handler<T> handler) {
+    if (handler == null) {
+      return new LogHandler<T>();
+    }
+    return handler;
   }
   
   @Override
   public final void run() {
     try {
-      onValidation(request.getValues());
+      handler.onValidation(request);
+      Response<T> response;
       if (DEBUG) {
-        onSuccess(executeMock());
+        response = executeMock();
       } else {
-        onSuccess(execute());
+        response = execute();
       }
+      handler.onSuccess(request, response);
     } catch (Exception e) {
-      onError(e);
+      handler.onError(e);
     }
   }
 
-  protected abstract List<T> execute();
+  protected abstract Response<T> execute();
   
-  private List<T> executeMock() {
+  private Response<T> executeMock() {
     try {
       Thread.sleep(5*1000);// 5 seconds
-      return Lists.newArrayList();
+      return new Response<T>();
     } catch (InterruptedException e) {
       throw new DomoticException(e);
     }
   }
   
-  protected void onValidation(List<T> values) {
-    request.getHandler().onValidation(values);
+  public Request<T> request() {
+    return request;
   }
-  
-  protected void onSuccess(List<T> values){
-    request.getHandler().onSuccess(values);
+
+  public Handler<T> handler() {
+    return handler;
   }
-  
-  protected void onError(Exception e) {
-    request.getHandler().onError(e);
-  }
-  
-  protected SyntaxType getType() {
+
+  protected SyntaxType type() {
     return request.getSyntax().syntaxType;
   }
   

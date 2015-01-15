@@ -34,6 +34,7 @@ import com.domotic.enhanced.syntax.Syntax;
  * 
  * @author niqdev
  */
+@SuppressWarnings({"rawtypes", "unchecked"})
 public class EnhancedDomotic<T> {
   
   private static final Logger log = LoggerFactory.getLogger(EnhancedDomotic.class);
@@ -57,7 +58,6 @@ public class EnhancedDomotic<T> {
    * 
    * @see com.domotic.enhanced.EnhancedDomotic.resetConfig(Config)
    */
-  @SuppressWarnings("unchecked")
   public static <T> EnhancedDomotic<T> config(Config config) {
     return (EnhancedDomotic<T>) (instance == null ? new EnhancedDomotic<T>(checkNotNull(config)) : instance);
   }
@@ -107,7 +107,6 @@ public class EnhancedDomotic<T> {
    * 
    * @see com.domotic.enhanced.domain.EActionProperty.ActionPropertyType
    */
-  @SuppressWarnings("unchecked")
   public <V> EnhancedDomotic<T> actionProperty(ActionPropertyType property, V... values) {
     syntax.actionProperties.put(checkNotNull(property), Domotics.newSafeList(values));
     log.debug("ACTION PROPERTY: {} - {}", property, values);
@@ -130,7 +129,6 @@ public class EnhancedDomotic<T> {
    * 
    * @see com.domotic.enhanced.domain.EDeviceProperty.DevicePropertyType
    */
-  @SuppressWarnings("unchecked")
   public <V> EnhancedDomotic<T> deviceProperty(DevicePropertyType property, V... values) {
     syntax.deviceProperties.put(checkNotNull(property), Domotics.newSafeList(values));
     log.debug("DEVICE PROPERTY: {} - {}", property, values);
@@ -185,7 +183,10 @@ public class EnhancedDomotic<T> {
     try {
       Syntax<T> clonedSyntax = this.syntax;
       domotics.startClient(new Request.Build<T>()
-        .config(config).values(val()).syntax(clonedSyntax).handler(handler).build());
+        .config(config)
+        .values(val())
+        .syntax(clonedSyntax)
+        .build(), handler);
     } catch (Exception e) {
       log.error("error client execution", e);
       throw new DomoticException(e);

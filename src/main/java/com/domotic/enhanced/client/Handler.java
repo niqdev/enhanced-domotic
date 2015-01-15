@@ -1,15 +1,11 @@
 package com.domotic.enhanced.client;
 
-import java.util.List;
-
-public interface Handler {
+public interface Handler<T> {
   
-  void onValidation(List<?> values);
+  void onValidation(Request<T> request);
   
-  void onSuccess(List<?> values);
+  void onSuccess(Request<T> request, Response<T> response);
   
   void onError(Exception e);
-  
-  // TODO converter with Function/Iterable
 
 }

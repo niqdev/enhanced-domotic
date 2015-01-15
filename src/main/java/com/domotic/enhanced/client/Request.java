@@ -13,15 +13,12 @@ public class Request<T> {
   
   private final Config config;
   
-  private final Handler handler;
-  
   private final List<T> values;
   
   private final Syntax<T> syntax;
   
   private Request(Build<T> build) {
     this.config = build.config;
-    this.handler = build.handler;
     this.values = build.values;
     this.syntax = build.syntax;
   }
@@ -33,19 +30,12 @@ public class Request<T> {
     
     private Config config;
     
-    private Handler handler;
-    
     private List<T> values;
     
     private Syntax<T> syntax;
     
     public Build<T> config(Config config) {
       this.config = config;
-      return this;
-    }
-    
-    public Build<T> handler(Handler handler) {
-      this.handler = defaultHandler(handler);
       return this;
     }
     
@@ -69,21 +59,10 @@ public class Request<T> {
       checkArgument(isNotEmpty(values));
       checkNotNull(syntax);
     }
-    
-    private static Handler defaultHandler(Handler handler) {
-      if (handler != null) {
-        return handler;
-      }
-      return new LogHandler();
-    }
   }
 
   public Config getConfig() {
     return config;
-  }
-
-  public Handler getHandler() {
-    return handler;
   }
 
   public List<T> getValues() {
