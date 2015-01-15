@@ -9,17 +9,20 @@ public class LogHandler<T> implements Handler<T> {
 
   @Override
   public void onValidation(Request<T> request) {
+    // TODO
     log.debug("onValidation");
   }
 
   @Override
   public void onSuccess(Request<T> request, Response<T> response) {
+    // TODO
     log.debug("onSuccess");
   }
 
   @Override
   public void onError(Exception e) {
-    log.error("onError");
+    // TODO
+    log.error("onError", e);
   }
 
 }
