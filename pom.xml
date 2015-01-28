@@ -34,6 +34,7 @@
     <commons-collections.version>4.0</commons-collections.version>
     <commons-lang.version>3.3.2</commons-lang.version>
     <commons-beanutils.version>1.9.2</commons-beanutils.version>
+    <commons-validator.version>1.4.1</commons-validator.version>
     <android.version>4.1.1.4</android.version>
     <junit.version>4.11</junit.version>
   </properties>
@@ -83,6 +84,17 @@
       <groupId>commons-beanutils</groupId>
       <artifactId>commons-beanutils</artifactId>
       <version>${commons-beanutils.version}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>commons-collections</groupId>
+          <artifactId>commons-collections</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>commons-validator</groupId>
+      <artifactId>commons-validator</artifactId>
+      <version>${commons-validator.version}</version>
       <exclusions>
         <exclusion>
           <groupId>commons-collections</groupId>
