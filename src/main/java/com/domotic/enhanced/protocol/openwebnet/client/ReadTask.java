@@ -24,42 +24,24 @@ public class ReadTask implements Callable<List<String>> {
 
   @Override
   public List<String> call() throws Exception {
-    //String frame = readFrame(reader);
     return readFrames();
   }
 
-  @SuppressWarnings("unused")
-  @Deprecated
-  private String readFrame(Reader reader) throws IOException {
-    char[] inputChar = new char[1];
-    int charRead;
-    StringBuilder frame = new StringBuilder();
-
-    while ((charRead = reader.read(inputChar, 0, 1)) != -1) {
-      frame.append(inputChar);
-      if (StringUtils.endsWith(frame, "##")) {
-        return new String(frame);
-      }
-    }
-    return "";
-  }
-  
   private List<String> readFrames() throws IOException {
     ArrayList<String> frames = Lists.newArrayList();
     
     char[] inputChar = new char[1];
     StringBuilder frame = new StringBuilder();
 
-    // TODO check exit condition
     while (reader.read(inputChar, 0, 1) != -1) {
       frame.append(inputChar);
-      log.debug("reading frame [{}]", frame);
+      //log.debug("reading frame [{}]", frame);
       if (StringUtils.endsWith(frame, "##")) {
         log.debug("READ new frame [{}]", frame);
         frames.add(frame.toString());
       }
     }
-    log.debug("READ all frames [{}]", frames);
+    //log.debug("READ all frames [{}]", frames);
     return frames;
   }
 

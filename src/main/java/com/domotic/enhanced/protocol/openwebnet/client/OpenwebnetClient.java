@@ -24,6 +24,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeoutException;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import com.domotic.enhanced.Config;
@@ -54,10 +55,7 @@ public class OpenwebnetClient extends Client<String> {
         BufferedReader reader = initReader(socket);
         PrintWriter writer = initWriter(socket)) {
 
-        handshake(reader, writer);
-        
-        //executeAll(writer);
-        //return new Response<String>();
+        //handshake(reader, writer);
         
         // TODO response converter
         return new Response<String>(send(reader, writer));
@@ -91,6 +89,7 @@ public class OpenwebnetClient extends Client<String> {
    * 
    * then send requests.
    */
+  @SuppressWarnings("unused")
   private void handshake(Reader reader, Writer writer)
       throws InterruptedException, ExecutionException, TimeoutException {
 
@@ -113,24 +112,6 @@ public class OpenwebnetClient extends Client<String> {
       return SESSION_EVENT.val();
     default:
       throw new DomoticException("invalid channel");
-    }
-  }
-  
-  /*
-   * TEST and remove
-   */
-  @Deprecated
-  private void executeAll(Writer writer)
-    throws InterruptedException, ExecutionException, TimeoutException {
-    
-    // TODO multimap: pair of write/read future
-    ArrayList<Future<Void>> futures = Lists.<Future<Void>> newArrayList();
-    for (String value : request().getValues()) {
-      futures.add(executor.submit(new WriteTask(writer, value)));
-      // TODO add ReadTask for each WriteTask?
-    }
-    for (Future<Void> future : futures) {
-      future.get(TIMEOUT, MILLISECONDS);
     }
   }
   
@@ -158,16 +139,15 @@ public class OpenwebnetClient extends Client<String> {
     
     for (String value : request().getValues()) {
       requests.add(executor.submit(new WriteTask(writer, value)));
-      requests.add(executor.submit(new ReadTask(reader)));
+      //requests.add(executor.submit(new ReadTask(reader)));
     }
     
     ArrayList<String> responses = Lists.<String>newArrayList();
     for (Future<?> future : requests) {
-      if (future instanceof WriteTask) {
-        future.get(TIMEOUT, MILLISECONDS);
-      } else {
-        // ReadTask
-        responses.addAll((List<String>) future.get(TIMEOUT, MILLISECONDS));
+      // TODO
+      List<String> response = (List<String>) future.get(TIMEOUT, MILLISECONDS);
+      if (CollectionUtils.isNotEmpty(response)) {
+        responses.addAll(response);
       }
     }
     return responses;
